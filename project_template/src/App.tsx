@@ -69,7 +69,7 @@ function App() {
 
   /*
   =================================================================
-  TASK 1: handleMintPublic()
+  TASK 1A: handleMintPublic()
   
   TODOs: N/A
 
@@ -138,7 +138,7 @@ function App() {
 
   /*
   =================================================================
-  TASK 2: handleMintPrivate()
+  TASK 1B: handleMintPrivate()
 
   Review the handleMintPublic() function implementation above if 
   you get stuck.
@@ -168,7 +168,7 @@ function App() {
 
   /*
   =================================================================
-  TASK 3: handleTransferPublic()
+  TASK 2A: handleTransferPublic()
 
   Review the handleMintPublic() function implementation above if 
   you get stuck.
@@ -198,7 +198,7 @@ function App() {
 
   /*
   =================================================================
-  TASK 4: handleTransferPrivate()
+  TASK 2B: handleTransferPrivate()
 
   Review the handleMintPublic() function implementation above if 
   you get stuck.
