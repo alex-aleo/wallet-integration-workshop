@@ -79,12 +79,11 @@ This is the UI component for the `Select Wallet` button shown above.  You'll lik
 #### useWallet:
 ```typescript
 import { useWallet } from "@demox-labs/aleo-wallet-adapter-react";
-```
-This is the custom hook for storing state and interacting with the wallet. 
 
-```typescript
 const { wallet, publicKey, requestTransaction } = useWallet();
 ```
+This is the custom hook for storing state and interacting with the wallet.  
+
 We'll only use a small subset of the features of this hook, but if you'd like the full list, check out the [Leo Wallet docs](https://docs.leo.app/aleo-wallet-adapter/packages/core/react/docs/interfaces/walletcontextstate).
 
 
@@ -98,7 +97,7 @@ This is the custom data type for building Aleo transaction that the wallet can i
 ```typescript
 export interface AleoTransaction {
     address: string; // The public-key/address that will initiate the transaction
-    chainId: string; //The network to broadcast to (Testnet vs. Mainnet)
+    chainId: string; //The network to broadcast to (testnetbeta, mainnet, etc.)
     transitions: [
         {
             program: string; //The program being called
