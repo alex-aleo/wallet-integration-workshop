@@ -65,11 +65,13 @@ Let's take a look at the application's frontend:
 
 ![](./images/wallet-workshop-frontend.png)
 
-We can see that this application is meant to be a mock token minting and transfer service.  In the backend, it will call a `workshop_token.aleo` program deployed on the blockchain.  This frontend should allow users to connect their browser wallet and intiate transactions that call functions from that program.  For now, users can only connect their wallets.
-
 Mint             |  Transfer
 :-------------------------:|:-------------------------:
 ![](./images/wallet-workshop-mint.png)  |  ![](./images/wallet-workshop-transfer.png)
+
+
+
+We can see that this application is meant to be a mock token minting and transfer service.  In the backend, it will call a `workshop_token.aleo` program deployed on the blockchain.  This frontend should allow users to connect their browser wallet and intiate transactions that call functions from that program.  For now, users can only connect their wallets.
 
 
 # Build
