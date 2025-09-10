@@ -63,7 +63,54 @@ src
 ```
 
 ### `main.tsx`
-TALK about defining different wallets and wrapping app in WalletAdapter and WalletAdapterModal
+This file contains some of the base structure code for wallet integration.  You shouldn't need to edit any code in here, but we'll take a look to understand how wallet integration occurs.
+
+First, we use the `useMemo` hook to define which specific wallet adapters we'd like to support.  For this workshop, we'll support all four of the Aleo-compatible wallets.
+```typescript
+  const wallets = useMemo(
+    () => [
+      new LeoWalletAdapter({
+        appName: 'Wallet Workshop',
+      }),
+      new PuzzleWalletAdapter({
+        programIdPermissions: {
+          [WalletAdapterNetwork.TestnetBeta]: ['credits.aleo, workshop_token.aleo']
+        },
+        appName: 'Wallet Workshop',
+        appDescription: 'A privacy-focused app for the  Wallet Integration Workshop',
+        appIconUrl: ''
+      }),
+      new FoxWalletAdapter({
+        appName: 'Wallet Workshop',
+      }),
+      new SoterWalletAdapter({
+        appName: 'Wallet Workshop',
+      })
+    ],
+    []
+  );
+```
+
+We then need to wrap the app inside both `WalletProvider` and `WalletModalProvider` to ensure the wallet functions properly:
+```typescript
+  return (
+    <React.StrictMode>
+      <WalletProvider
+        wallets={wallets}
+        network={WalletAdapterNetwork.TestnetBeta}
+        decryptPermission={DecryptPermission.OnChainHistory}
+        programs={['credits.aleo', 'workshop_token.aleo']}
+        autoConnect
+      >
+        <WalletModalProvider>
+          <App />
+        </WalletModalProvider>
+      </WalletProvider>
+    </React.StrictMode>
+  );
+```
+
+There's a lot more depth to all of the parameters and customization options for the above components. For now, we've only covered the basics, but check out the [Leo Wallet docs](https://docs.leo.app) for more information.
 
 ### `App.tsx` and `App.css`
 `App.tsx` contains the majority of the relevant code, including the event handlers you'll need to implement.  Take note of some key imports from the wallet adapter in this page:
