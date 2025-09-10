@@ -33,6 +33,20 @@ You'll also need some Testnet tokens to fund your wallet.  Head over to INSERT_L
 - [Aleo Discord](https://discord.gg/aleo)
 
 
+# Frontend
+
+Let's take a look at the application's frontend:
+
+![](./images/wallet-workshop-frontend.png)
+
+Mint             |  Transfer
+:-------------------------:|:-------------------------:
+![](./images/wallet-workshop-mint.png)  |  ![](./images/wallet-workshop-transfer.png)
+
+
+
+We can see that this application is meant to be a token minting and transfer service.  In the backend, it will call a `workshop_token.aleo` program deployed on the blockchain.  This frontend should allow users to connect their browser wallet and intiate transactions that call functions from that program.  For now, users can only connect their wallets.
+
 
 # Repository Overview
 The relevant portions of the repository for this workshop can be found in `project_template/src/` directory.
@@ -49,29 +63,66 @@ src
 ```
 
 ### `main.tsx`
+TALK about defining different wallets and wrapping app in WalletAdapter and WalletAdapterModal
 
 ### `App.tsx` and `App.css`
+`App.tsx` contains the majority of the relevant code, including the event handlers you'll need to implement.  Take note of some key imports from the wallet adapter in this page:
+
+#### WalletMultiButton:
+
+```typescript
+import { WalletMultiButton } from "@demox-labs/aleo-wallet-adapter-reactui";
+```
+
+This is the UI component for the `Select Wallet` button shown above.  You'll likely need this for every app you build if you plan on integrating wallet support.
+
+#### useWallet:
+```typescript
+import { useWallet } from "@demox-labs/aleo-wallet-adapter-react";
+```
+This is the custom hook for storing state and interacting with the wallet. 
+
+```typescript
+const { wallet, publicKey, requestTransaction } = useWallet();
+```
+We'll only use a small subset of the features of this hook, but if you'd like the full list, check out the [Leo Wallet docs](https://docs.leo.app/aleo-wallet-adapter/packages/core/react/docs/interfaces/walletcontextstate).
+
+
+
+#### AleoTransaction:
+
+```typescript
+import { AleoTransaction} from "@demox-labs/aleo-wallet-adapter-base";
+```
+This is the custom data type for building Aleo transaction that the wallet can interpret.  If we dig into the imported code, we can see that an `AleoTransaction` object has the following structure:
+```typescript
+export interface AleoTransaction {
+    address: string; // The public-key/address that will initiate the transaction
+    chainId: string; //The network to broadcast to (Testnet vs. Mainnet)
+    transitions: [
+        {
+            program: string; //The program being called
+            functionName: string; //The function in the above program to be executed
+            inputs: any[]; //The inputs to the above function
+        },   
+        ... //Can contain any number of transitions
+    ]; 
+    fee: number; //The fee to pay for the transaction
+    feePrivate: boolean; //Is the fee going to be paid with a private record?
+}
+``` 
+
+#### Miscellaneous:
+`App.tsx` also contains the HTML code for displaying most of the webpage.  You shouldn't need to edit that part unless you'd like to change how the structure of how the webpage is rendered.  
+
+The CSS formatting for the frontend webpage is defined in `App.css`.  If you'd like to change how certain features are displayed (color, sizing, font, etc.), you can do so in this file.  We'd recommend not changing it unless you know what you're doing.
 
 ### `custom.d.ts`
+This is an additional Typescript file for supporting different filetypes as imports.  You shouldn't need to edit anything in this file.
 
 ### `workers/`
-The `workers/` subdirectory contains backend code from that's necessary for executing Aleo programs and transactions in the browser.  You shouldn't need to edit any of the code in here.  If you're curious to learn about WebWorkers and how this all works, check out the **[Provable SDK](https://docs.explorer.provable.com/docs/sdk/92sd7hgph3ggt-overview)**.
+The `workers/` subdirectory contains backend code from that's necessary for executing Aleo programs and transactions in the browser.  You shouldn't need to edit any of the code in here.  If you're curious to learn about WebWorkers and how browser-based execution works under the hood, check out the **[Provable SDK](https://docs.explorer.provable.com/docs/sdk/92sd7hgph3ggt-overview)**.
 
-
-
-# Frontend
-
-Let's take a look at the application's frontend:
-
-![](./images/wallet-workshop-frontend.png)
-
-Mint             |  Transfer
-:-------------------------:|:-------------------------:
-![](./images/wallet-workshop-mint.png)  |  ![](./images/wallet-workshop-transfer.png)
-
-
-
-We can see that this application is meant to be a mock token minting and transfer service.  In the backend, it will call a `workshop_token.aleo` program deployed on the blockchain.  This frontend should allow users to connect their browser wallet and intiate transactions that call functions from that program.  For now, users can only connect their wallets.
 
 
 # Build
